@@ -11,6 +11,7 @@ const Instructors = () => {
   const title = " Mentor Empowering Students' Artistic Growth";
   const text =
     "Dance instructors are passionate, skilled professionals who guide and inspire students in their dance journey. ";
+    const className = "mb-5 text-orange-400 text-lg"
 
   //
   useEffect(() => {
@@ -26,6 +27,7 @@ const Instructors = () => {
     <>
       <Navbar></Navbar>
       <CoverImage
+      className={className}
         img={insructors}
         title={title}
         text={text}

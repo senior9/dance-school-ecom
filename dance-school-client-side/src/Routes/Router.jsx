@@ -4,6 +4,7 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Instructors from "../Pages/Instructors/Instructors";
+import AllClasses from "../Pages/AllClasses/AllClasses";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,11 @@ const router = createBrowserRouter([
   {
     path: "/instructors",
     element: <Instructors></Instructors>,
+  },
+  {
+    path: "all-classes",
+    element: <AllClasses></AllClasses>,
+    loader:()=>fetch(`data.json`)
   },
   
 ]);

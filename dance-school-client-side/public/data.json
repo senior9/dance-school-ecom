@@ -2,7 +2,7 @@
     {
         "id":1,
       "class_name": "Ballet Class",
-      "class_image": "ballet_class.jpg",
+      "class_image": "https://i.ibb.co/N6V8Dpm/class-Image-1.png",
       "instructor_name": "John Smith",
       "instructor_image": "https://i.ibb.co/gPFCnxn/ins-Image-2.png",
       "instructor_email": "johnsmith@example.com",
@@ -12,7 +12,7 @@
     {
         "id":2,
       "class_name": "Hip Hop Class",
-      "class_image": "hip_hop_class.jpg",
+      "class_image": "https://i.ibb.co/tJVf1Z7/class-Image-2.png",
       "instructor_name": "Sarah Johnson",
       "instructor_image": "https://i.ibb.co/x2RbLLV/ins-Image-1.png",
       "instructor_email": "sarahjohnson@example.com",
@@ -22,7 +22,7 @@
     {
         "id":3,
       "class_name": "Contemporary Dance Class",
-      "class_image": "contemporary_class.jpg",
+      "class_image": "https://i.ibb.co/N6V8Dpm/class-Image-1.png",
       "instructor_name": "Michael Rodriguez",
       "instructor_image": "https://i.ibb.co/RcF7SH6/ins-Image-4.png",
       "instructor_email": "michaelrodriguez@example.com",
@@ -32,7 +32,7 @@
     {
         "id":4,
       "class_name": "Salsa Dance Class",
-      "class_image": "salsa_class.jpg",
+      "class_image": "https://i.ibb.co/tJVf1Z7/class-Image-2.png",
       "instructor_name": "Maria Martinez",
       "instructor_image": "https://i.ibb.co/zHJVHbJ/ins-Image-6.png",
       "instructor_email": "mariamartinez@example.com",
@@ -42,7 +42,7 @@
     {
         "id":5,
       "class_name": "Tap Dance Class",
-      "class_image": "tap_class.jpg",
+      "class_image": "https://i.ibb.co/N6V8Dpm/class-Image-1.png",
       "instructor_name": "Robert Thompson",
       "instructor_image": "https://i.ibb.co/Y3Z1NkB/ins-Image-5.png",
       "instructor_email": "robertthompson@example.com",
@@ -52,7 +52,7 @@
     {
         "id":6,
       "class_name": "Tap Dance Class",
-      "class_image": "tap_class.jpg",
+      "class_image": "https://i.ibb.co/tJVf1Z7/class-Image-2.png",
       "instructor_name": "Robert Thompson",
       "instructor_image": "https://i.ibb.co/Y3Z1NkB/ins-Image-5.png",
       "instructor_email": "robertthompson@example.com",
