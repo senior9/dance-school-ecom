@@ -18,7 +18,7 @@ const useOrder = () => {
     queryKey: ["carts", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/carts?email=${user?.email}`
+        `https://dance-school-server-phi.vercel.app/carts?email=${user?.email}`
       );
       return res.json();
     },

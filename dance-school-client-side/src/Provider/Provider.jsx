@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../../firebase.config.init";
+import axios from "axios";
 
 export const authProvider = createContext(null);
 const Provider = ({ children }) => {
@@ -66,6 +67,14 @@ const Provider = ({ children }) => {
     const unchangedState = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       // console.log(currentUser);
+
+      // get and Set Token 
+        axios.post(`https://dance-school-server-phi.vercel.app/jwt`, {email:currentUser?.email})
+        
+        .then(data=>{
+
+        })
+
       if (currentUser) {
         setDisplayName(currentUser.displayName);
         setPhotoUrl(currentUser.photoURL);

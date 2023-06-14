@@ -36,7 +36,7 @@ const DashBoard = () => {
             isAdmin ? 
             <>
             <li>
-            <Link className="flex items-center gap-3" to="/dashboard/home">
+            <Link className="flex items-center gap-3" to="/">
               <FaHome></FaHome> Admin Home
               </Link>
                 
@@ -58,7 +58,7 @@ const DashBoard = () => {
             <>
             <div className="divider  bg-red-700"></div>
           <li>
-            <Link to="/my-cart">
+            <Link to="/">
               <FaHome></FaHome> Home
             </Link>
           </li>

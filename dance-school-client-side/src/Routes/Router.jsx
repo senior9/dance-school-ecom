@@ -39,7 +39,7 @@ const router = createBrowserRouter([
   {
     path: "all-classes",
     element: <AllClasses></AllClasses>,
-    loader:()=>fetch(`http://localhost:5000/classCollection`)
+    loader:()=>fetch(`https://dance-school-server-phi.vercel.app/classCollection`)
   },
   {
     path:"dashboard",
