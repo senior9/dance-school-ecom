@@ -24,7 +24,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data.email, data.password);
+    console.log(data.email, data.name,data.photo);
     //   create user by authContext 
     createUserInfo(data.email, data.password)
     .then(res=>{
@@ -37,7 +37,7 @@ const Register = () => {
 
          
           .then(() => {
-            const loggedUser = {name:data.name,email:data.email}
+            const loggedUser = {name:data.name,email:data.email,image:data.photo}
             fetch('http://localhost:5000/users',{
               method:'POST',
               headers:{
@@ -70,7 +70,7 @@ const googleSignIn = () => {
   googleSignInMethod()
     .then((result) => {
       const googleLoggedUser = result.user;
-      const loggedUser = {name:googleLoggedUser.displayName,email:googleLoggedUser.email}
+      const loggedUser = {name:googleLoggedUser.displayName,email:googleLoggedUser.email,image:googleLoggedUser.photoURL};
             fetch('http://localhost:5000/users',{
               method:'POST',
               headers:{
