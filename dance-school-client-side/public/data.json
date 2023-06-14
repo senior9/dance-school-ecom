@@ -7,7 +7,8 @@
       "instructor_image": "https://i.ibb.co/gPFCnxn/ins-Image-2.png",
       "instructor_email": "johnsmith@example.com",
       "available_seats": 20,
-      "price": "$50"
+      "price":  50,
+      "students":0
     },
     {
         "id":2,
@@ -17,7 +18,8 @@
       "instructor_image": "https://i.ibb.co/x2RbLLV/ins-Image-1.png",
       "instructor_email": "sarahjohnson@example.com",
       "available_seats": 15,
-      "price": "$40"
+      "price":  40,
+      "students":0
     },
     {
         "id":3,
@@ -27,7 +29,8 @@
       "instructor_image": "https://i.ibb.co/RcF7SH6/ins-Image-4.png",
       "instructor_email": "michaelrodriguez@example.com",
       "available_seats": 10,
-      "price": "$60"
+      "price":  60,
+      "students":0
     },
     {
         "id":4,
@@ -37,7 +40,8 @@
       "instructor_image": "https://i.ibb.co/zHJVHbJ/ins-Image-6.png",
       "instructor_email": "mariamartinez@example.com",
       "available_seats": 12,
-      "price": "$45"
+      "price":  45,
+      "students":0
     },
     {
         "id":5,
@@ -47,7 +51,8 @@
       "instructor_image": "https://i.ibb.co/Y3Z1NkB/ins-Image-5.png",
       "instructor_email": "robertthompson@example.com",
       "available_seats": 18,
-      "price": "$55"
+      "price":  55,
+      "students":0
     },
     {
         "id":6,
@@ -57,7 +62,8 @@
       "instructor_image": "https://i.ibb.co/Y3Z1NkB/ins-Image-5.png",
       "instructor_email": "robertthompson@example.com",
       "available_seats": 18,
-      "price": "$55"
-    }
+      "price":  55,
+      "students":0
+        }
   ]
   

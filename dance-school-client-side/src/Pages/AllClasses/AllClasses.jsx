@@ -4,6 +4,7 @@ import CoverImage from '../../Shared/CoverImage/CoverImage';
 import classesImage from "../../assets/classes/classes-3.png"
 import { useLoaderData } from 'react-router-dom';
 import SingleClass from './SingleClass/SingleClass';
+import Footer from "../../Shared/Footer/Footer"
 
 const AllClasses = () => {
     const data = useLoaderData();
@@ -30,8 +31,7 @@ const AllClasses = () => {
             > </SingleClass>
            )}
            </div>
-
-            <footer></footer>
+            <Footer></Footer>
         </div>
     );
 };

@@ -1,13 +1,20 @@
 import React, { useContext, useState } from "react";
 import signupBg from "../../assets/auth/signupBg.jpg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Provider, { authProvider } from "../../Provider/Provider";
+import Swal from "sweetalert2";
+import { Result } from "postcss";
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const {createUserInfo} =useContext(authProvider);
+    const [error,setError ]=useState();
+    const {createUserInfo,updateProfileUser,googleSignInMethod} =useContext(authProvider);
+    const navigate = useNavigate();
+    let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
@@ -18,20 +25,83 @@ const Register = () => {
 
   const onSubmit = (data) => {
     console.log(data.email, data.password);
-    reset();
+    //   create user by authContext 
     createUserInfo(data.email, data.password)
     .then(res=>{
         const loggedUser = res.user;
         console.log(loggedUser);
+        reset();
     })
-  };
 
+    updateProfileUser(data.name, data.photo)
+
+         
+          .then(() => {
+            const loggedUser = {name:data.name,email:data.email}
+            fetch('http://localhost:5000/users',{
+              method:'POST',
+              headers:{
+                'content-type':'application/json'
+              },
+              body:JSON.stringify(loggedUser)
+            })
+            .then(response=>response.json())
+            .then(data =>{
+              if(data.insertedId){
+                reset()
+                Swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+              }
+            })
+            
+            // console.log(data.displayName, data.photoURL);
+            navigate("/");
+          })
+          .catch((error) => {
+            setError(error.message);
+          });
+  };
+// Sign In 
+// Google
+const googleSignIn = () => {
+  googleSignInMethod()
+    .then((result) => {
+      const googleLoggedUser = result.user;
+      const loggedUser = {name:googleLoggedUser.displayName,email:googleLoggedUser.email}
+            fetch('http://localhost:5000/users',{
+              method:'POST',
+              headers:{
+                'content-type':'application/json'
+              },
+              body:JSON.stringify(loggedUser)
+            })
+            .then(response=>response.json())
+            .then(data =>{
+              if(data.insertedId){
+                reset()
+                Swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+              }
+            })
+
+      navigate(from,{replace:true});
+    })
+    .catch((error) => {
+      setError(error.message);
+    });
+};
  
   const passwordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-//   create user by authContext 
+
 
 
   return (
@@ -171,7 +241,12 @@ const Register = () => {
                 Sign up
               </button>
             </div>
+            
           </form>
+          <div className="form-control mt-6">
+              <button onClick={googleSignIn} className="btn btn-warning btn-outline text-white text-xl">
+                Google Sign In  </button>
+            </div>
         </div>
       </div>
     </div>
