@@ -10,6 +10,7 @@ const Navbar = () => {
   const { user, photoUrl, displayName, logOut } = useContext(authProvider);
   console.log(photoUrl);
   const [cart]= useOrder();
+  console.log(cart.length)
 
 
   // handleSign out

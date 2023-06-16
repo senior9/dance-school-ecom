@@ -2,9 +2,11 @@ import React from 'react';
 import useOrder from '../../Hooks/useOrder';
 import { TiDeleteOutline } from 'react-icons/ti';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const MyCart = () => {
   const [cart,refetch] = useOrder();
+  console.log(cart);
   // Calculate the total price
   const totalPrice = cart.reduce((total, item) => {
     const itemPrice = parseFloat(item.price);
@@ -27,7 +29,7 @@ const MyCart = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://dance-school-server-phi.vercel.app/carts/${row._id}`, {
+        fetch(`http://localhost:5000/carts/${row._id}`, {
           method: 'DELETE'
         })
           .then((res) => res.json())
@@ -47,7 +49,7 @@ const MyCart = () => {
         <button className="btn btn-info">Total Order : {cart.length}</button>
 
         <button className="btn btn-success">Total Price: ${totalPrice}</button>
-        <button className="btn btn-success">Pay</button>
+        <Link to="/dashboard/payment" className="btn btn-success">Pay</Link>
       </div>
 
       <div className="overflow-x-auto">
@@ -85,7 +87,7 @@ const MyCart = () => {
                   <button className="btn btn-ghost btn-xs">{row.instructor_name}</button>
                 </th>
                 <th>
-                  <button className="btn btn-ghost btn-xs">{row.instructor_email}</button>
+                  <button className="btn btn-ghost btn-xs lowercase">{row.instructor_email}</button>
                 </th>
                 <th>
                   <button className="btn btn-ghost btn-xs">${row.price}</button>

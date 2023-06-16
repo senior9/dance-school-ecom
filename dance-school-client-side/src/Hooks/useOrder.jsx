@@ -1,9 +1,5 @@
 import {
   useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
 } from "@tanstack/react-query";
 import { useContext } from "react";
 import { authProvider } from "../Provider/Provider";
@@ -11,6 +7,7 @@ import { authProvider } from "../Provider/Provider";
 
 const useOrder = () => {
   const { user } = useContext(authProvider);
+  const verifyToken = localStorage.getItem('token')
   const {
     data: cart = [],
     refetch,
@@ -18,7 +15,11 @@ const useOrder = () => {
     queryKey: ["carts", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `https://dance-school-server-phi.vercel.app/carts?email=${user?.email}`
+        `http://localhost:5000/carts?email=${user?.email}`,{
+          headers: {
+            authorization: 'Bearer ' +{verifyToken}
+          }
+        }
       );
       return res.json();
     },

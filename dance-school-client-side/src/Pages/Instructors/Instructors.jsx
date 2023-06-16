@@ -15,7 +15,7 @@ const Instructors = () => {
 
   //
   useEffect(() => {
-    fetch(`https://dance-school-server-phi.vercel.app/classCollection`)
+    fetch(`http://localhost:5000/classCollection`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

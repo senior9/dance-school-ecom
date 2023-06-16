@@ -7,13 +7,13 @@ import Swal from 'sweetalert2';
 
 const AllUser = () => {
 const {data:user=[],refetch} =useQuery(['users'],async()=>{
-    const response = await fetch('https://dance-school-server-phi.vercel.app/users')
+    const response = await fetch('http://localhost:5000/users')
     return response.json();
 })
 
 const handlemakeAdmin = (user) => {
   
-    fetch(`https://dance-school-server-phi.vercel.app/users/admin/${user._id}`, {
+    fetch(`http://localhost:5000/users/admin/${user._id}`, {
       method: 'PATCH',
     })
       .then((res) => res.json())
@@ -28,6 +28,23 @@ const handlemakeAdmin = (user) => {
       })
       
 };
+
+const handleMakeInstructor =(user)=>{
+  fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+    method: 'PATCH',
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.modifiedCount) {
+        Swal.fire(
+          'Instructor Updated!',
+          'The user has been made an Instrructor.',
+          'success'
+        );
+      }
+    })
+    
+}
 
 
     return (
@@ -70,9 +87,9 @@ const handlemakeAdmin = (user) => {
                 </th>
                 
                 <th>
-                  <button onClick={() => handleDelete()} className="btn btn-ghost btn-xs text-2xl">
+                  {singleUser.role === 'instructor'? 'instructor':<button onClick={() => handleMakeInstructor(singleUser)} className="btn btn-ghost btn-xs text-2xl">
                     <MdAddModerator />
-                  </button>
+                  </button>}
                   {
                     singleUser.role ==='admin'? 'admin' :<button onClick={() => handlemakeAdmin(singleUser)} className="btn btn-ghost btn-xs text-2xl">
                     <FaUserShield />

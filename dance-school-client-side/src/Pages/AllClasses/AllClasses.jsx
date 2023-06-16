@@ -5,11 +5,14 @@ import classesImage from "../../assets/classes/classes-3.png"
 import { useLoaderData } from 'react-router-dom';
 import SingleClass from './SingleClass/SingleClass';
 import Footer from "../../Shared/Footer/Footer"
+import useClass from '../../Hooks/useClass';
 
 const AllClasses = () => {
     const data = useLoaderData();
     console.log(data);
-
+     const [classCollection] = useClass();
+     const approvedClass= classCollection.filter((approvedClass)=>approvedClass.status === "approved");
+     console.log(approvedClass)
     const title =" Explore, Enroll, and Enhance Your Skills";
     const text = "Embark on a journey of knowledge with captivating classes, renowned instructors, and seamless enrollment. Discover now!";
     const input = "Explore & Enroll";

@@ -34,7 +34,7 @@ const Register = () => {
       })
       .then(() => {
         const loggedUser = { name: watchName, email: data.email, image: watchPhoto };
-        fetch("https://dance-school-server-phi.vercel.app/users", {
+        fetch("http://localhost:5000/users", {
           method: "POST",
           headers: {
             "content-type": "application/json"

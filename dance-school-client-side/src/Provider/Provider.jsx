@@ -69,11 +69,18 @@ const Provider = ({ children }) => {
       // console.log(currentUser);
 
       // get and Set Token 
-        axios.post(`https://dance-school-server-phi.vercel.app/jwt`, {email:currentUser?.email})
+        if(currentUser){
+          axios.post(`http://localhost:5000/jwt`, {email:currentUser?.email})
+          .then(data=>{
+              console.log(data.data.token);
+              localStorage.setItem('token',data.data.token)
+          })
+        }
+        else{
+          localStorage.removeItem("token");
+        }
         
-        .then(data=>{
-
-        })
+       
 
       if (currentUser) {
         setDisplayName(currentUser.displayName);

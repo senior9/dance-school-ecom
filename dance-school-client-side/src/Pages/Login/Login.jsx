@@ -1,59 +1,53 @@
-import React, { useContext } from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import "./Login.css";
-import loginBg from "../../assets/auth/loginBg.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { authProvider } from "../../Provider/Provider";
+import loginBg from "../../assets/auth/loginBg.jpg";
+import "./Login.css";
 
 const Login = () => {
   const { signIn, googleSignInMethod } = useContext(authProvider);
-  const { register, handleSubmit, reset } = useForm();
-  const [data, setData] = useState("");
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-  let location = useLocation();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  let from = location.state?.from?.pathname || "/";
-
-  const passwordVisibility = () => {
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const onSubmit = (data) => {
-    console.log(data.email, data.password);
-    signIn(data.email, data.password)
-      .then((result) => {
-        const createUser = result.user;
-        console.log(createUser);
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        setError(error.message);
-        // ..
-      });
+
+  const onSubmit = async (data) => {
+    try {
+      const result = await signIn(data.email, data.password);
+      const createUser = result.user;
+      console.log(createUser);
+      navigate(from, { replace: true });
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
-  // Google
-  const googleSignIn = () => {
-    googleSignInMethod()
-      .then(() => {
-        navigate(from,{replace:true});;
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignInMethod();
+      navigate(from, { replace: true });
+    } catch (error) {
+      setError(error.message);
+    }
   };
+
   return (
     <div
-      className="hero min-h-screen "
+      className="hero min-h-screen"
       style={{ backgroundImage: `url(${loginBg})` }}
     >
-      <div className=" flex-col lg:flex-row-reverse ">
-        <div className="card bg-slate-500  pb-5">
-          <h1 className="text-yellow-400 text-3xl text-center  font-bold mt-10">
+      <div className="flex-col lg:flex-row-reverse">
+        <div className="card bg-slate-500 pb-5">
+          <h1 className="text-yellow-400 text-3xl text-center font-bold mt-10">
             Log in
           </h1>
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
@@ -65,34 +59,50 @@ const Login = () => {
                 type="text"
                 placeholder="email"
                 className="input input-bordered w-96"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
               />
+              {errors.email && (
+                <span className="text-red-500">{errors.email.message}</span>
+              )}
             </div>
-            <div className="form-control ">
+            <div className="form-control">
               <label className="label">
                 <span className="label-text text-2xl text-white">Password</span>
               </label>
-
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder={showPassword ? "Hide password" : "Show password"}
-                  name="password"
-                  {...register("password", { pattern: /^[A-Za-z]+$/i })}
-                  className="input input-bordered w-96 "
+                  className="input input-bordered w-96"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters long",
+                    },
+                  })}
                 />
-
                 <span
                   className="input-group-text absolute right-4 bottom-5 transform -translate-y-1/2 cursor-pointer"
-                  onClick={passwordVisibility}
+                  onClick={togglePasswordVisibility}
                 >
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </span>
               </div>
+              {errors.password && (
+                <span className="text-red-500">{errors.password.message}</span>
+              )}
             </div>
             <div className="form-control mt-6">
               <label className="label">
                 <span className="label-text text-2xl text-white">
-                  Are You New User?{" "}
+                  Are You a New User?{" "}
                   <Link className="text-orange-200" to="/register">
                     Please Register!
                   </Link>{" "}
@@ -107,12 +117,13 @@ const Login = () => {
           </form>
           <div className="form-control mt-6">
             <button
-              onClick={googleSignIn}
+              onClick={handleGoogleSignIn}
               className="btn btn-success btn-outline text-white text-xl"
             >
-              Google Sign In{" "}
+              Google Sign In
             </button>
           </div>
+          {error && <span className="text-red-500">{error}</span>}
         </div>
       </div>
     </div>

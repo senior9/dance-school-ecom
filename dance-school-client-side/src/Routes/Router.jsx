@@ -11,6 +11,13 @@ import PrivateRoute from "../Private/PrivateRoute";
 import MyCart from "../DashBoard/MyCart/MyCart";
 import DashBoard from "../Layout/DashBoard";
 import AllUser from "../DashBoard/AllUsers/AllUser";
+import AdminRoute from "../Private/AdminRoute";
+
+import AddClass from "../DashBoard/AddClass/AddClass";
+import RouteInstructor from "../Private/RouteInstructor";
+import ManageAllClasses from "../DashBoard/ManageAllClasses/ManageAllClasses";
+import UserPayment from "../DashBoard/UserPayment/UserPayment";
+
 
 const router = createBrowserRouter([
   {
@@ -39,7 +46,7 @@ const router = createBrowserRouter([
   {
     path: "all-classes",
     element: <AllClasses></AllClasses>,
-    loader:()=>fetch(`https://dance-school-server-phi.vercel.app/classCollection`)
+    loader:()=>fetch(`http://localhost:5000/classCollection`)
   },
   {
     path:"dashboard",
@@ -47,11 +54,23 @@ const router = createBrowserRouter([
     children:[
       {
         path:"my-cart",
-      element:<MyCart></MyCart>
+      element:<PrivateRoute><MyCart></MyCart></PrivateRoute>
+      },
+      {
+        path:"payment",
+      element:<PrivateRoute><UserPayment></UserPayment></PrivateRoute>
       },
       {
         path:"all-users",
-      element:<AllUser></AllUser>
+      element:<AdminRoute><AllUser></AllUser></AdminRoute>
+      },
+      {
+      path:"add-class",
+      element: <RouteInstructor><AddClass></AddClass></RouteInstructor>
+      },
+      {
+        path:'manage-class',
+        element:<AdminRoute><ManageAllClasses></ManageAllClasses></AdminRoute>
       }
 
     ],
