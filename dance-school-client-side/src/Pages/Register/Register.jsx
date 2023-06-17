@@ -9,7 +9,8 @@ import Swal from "sweetalert2";
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState();
-  const { createUserInfo, updateProfileUser, googleSignInMethod } = useContext(authProvider);
+  const { createUserInfo, updateProfileUser, googleSignInMethod } =
+    useContext(authProvider);
   const navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
@@ -17,47 +18,59 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors },
-    reset
+    reset,
   } = useForm();
-  const watchName = watch("name");
-  const watchPhoto = watch("photo");
 
   const onSubmit = (data) => {
-    console.log(data.email, watchName, watchPhoto);
+    console.log(data.email, data.photoURL, data.displayName);
     createUserInfo(data.email, data.password)
-      .then((res) => {
-        const loggedUser = res.user;
-        console.log(loggedUser);
-        reset();
-      })
-      .then(() => {
-        const loggedUser = { name: watchName, email: data.email, image: watchPhoto };
-        fetch("http://localhost:5000/users", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify(loggedUser)
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.insertedId) {
-              reset();
-              Swal.fire("Success!", "Your account has been registered.", "success");
-            }
-          })
-          .catch((error) => {
-            setError(error.message);
-          });
-      })
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => {
-        setError(error.message);
+    .then((res) => {
+      const loggedUser = res.user;
+      console.log(loggedUser);
+      reset();
+      const user = {
+        name: data.displayName,
+        email: data.email,
+        image: data.photoURL,
+      };
+      return updateProfileUser(user.name, user.image)
+        .then(() => user);
+    })
+    .then((user) => {
+      console.log(user);
+      const loggedUser = {
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      };
+      console.log(loggedUser);
+      return fetch("https://dance-school-server-senior9.vercel.app/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(loggedUser),
       });
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.insertedId) {
+        reset();
+        Swal.fire(
+          "Success!",
+          "Your account has been registered.",
+          "success"
+        );
+      }
+    })
+    .then(() => {
+      navigate("/");
+    })
+    .catch((error) => {
+      setError(error.message);
+    });
   };
 
   const googleSignIn = () => {
@@ -67,20 +80,24 @@ const Register = () => {
         const loggedUser = {
           name: googleLoggedUser.displayName,
           email: googleLoggedUser.email,
-          image: googleLoggedUser.photoURL
+          image: googleLoggedUser.photoURL,
         };
+        console.log(loggedUser);
         fetch("https://dance-school-server-phi.vercel.app/users", {
           method: "POST",
           headers: {
-            "content-type": "application/json"
+            "content-type": "application/json",
           },
-          body: JSON.stringify(loggedUser)
+          body: JSON.stringify(loggedUser),
         })
           .then((response) => response.json())
           .then((data) => {
             if (data.insertedId) {
-              reset();
-              Swal.fire("Success!", "Your account has been registered.", "success");
+              Swal.fire(
+                "Success!",
+                "Your account has been registered.",
+                "success"
+              );
             }
           })
           .catch((error) => {
@@ -99,10 +116,15 @@ const Register = () => {
   };
 
   return (
-    <div className="hero min-h-screen" style={{ backgroundImage: `url(${signupBg})` }}>
+    <div
+      className="hero min-h-screen"
+      style={{ backgroundImage: `url(${signupBg})` }}
+    >
       <div className="flex-col lg:flex-row-reverse">
         <div className="card bg-slate-500">
-          <h1 className="text-yellow-400 text-3xl text-center mt-10 font-bold">Please Register First</h1>
+          <h1 className="text-yellow-400 text-3xl text-center mt-10 font-bold">
+            Please Register First
+          </h1>
 
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="form-control">
@@ -112,13 +134,15 @@ const Register = () => {
               <input
                 type="text"
                 placeholder="Enter your first name"
-                name="name"
-                {...register("name", { required: true })}
+                name="displayName"
+                {...register("displayName", { required: true })}
                 className="input input-bordered w-96"
               />
               <div className="w-96">
                 {errors.name && (
-                  <p className="text-red-100 text-center bg-red-500 text-lg font-normal">Name required</p>
+                  <p className="text-red-100 text-center bg-red-500 text-lg font-normal">
+                    Name required
+                  </p>
                 )}
               </div>
             </div>
@@ -135,19 +159,23 @@ const Register = () => {
               />
               <div className="w-96">
                 {errors.email && (
-                  <p className="text-red-100 text-center bg-red-500 text-lg font-normal">Email required</p>
+                  <p className="text-red-100 text-center bg-red-500 text-lg font-normal">
+                    Email required
+                  </p>
                 )}
               </div>
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text text-2xl text-white">Photo URL</span>
+                <span className="label-text text-2xl text-white">
+                  Photo URL
+                </span>
               </label>
               <input
                 type="text"
                 placeholder="Drop your photo link"
-                name="photo"
-                {...register("photo")}
+                name="photoURL"
+                {...register("photoURL")}
                 className="input input-bordered w-96"
               />
             </div>
@@ -165,7 +193,8 @@ const Register = () => {
                     required: true,
                     maxLength: 12,
                     minLength: 6,
-                    pattern: /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+                    pattern:
+                      /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/,
                   })}
                   className="input input-bordered w-96"
                 />
@@ -179,7 +208,9 @@ const Register = () => {
                 </div>
                 <div className="w-96">
                   {errors.password?.type === "required" && (
-                    <p className="text-red-100 text-center bg-red-500 text-lg font-normal">Password required</p>
+                    <p className="text-red-100 text-center bg-red-500 text-lg font-normal">
+                      Password required
+                    </p>
                   )}
                 </div>
                 <div className="w-96">
@@ -199,7 +230,8 @@ const Register = () => {
                 <div className="w-96">
                   {errors.password?.type === "pattern" && (
                     <p className="text-red-100 text-center bg-red-500 text-lg font-normal">
-                      Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character
+                      Password must contain at least one uppercase letter, one
+                      lowercase letter, one number, and one special character
                     </p>
                   )}
                 </div>
@@ -211,13 +243,18 @@ const Register = () => {
               </button>
             </div>
             <div className="flex justify-center items-center">
-            <button className="btn btn-outline w-96 mt-5" onClick={googleSignIn}>
-              Register with Google
-            </button>
-          </div>
+              <button
+                className="btn btn-outline w-96 mt-5"
+                onClick={googleSignIn}
+              >
+                Register with Google
+              </button>
+            </div>
             {error && (
               <div className="w-96">
-                <p className="text-red-100 text-center bg-red-500 text-lg font-normal">{error}</p>
+                <p className="text-red-100 text-center bg-red-500 text-lg font-normal">
+                  {error}
+                </p>
               </div>
             )}
             <div className="flex justify-center items-center text-center text-white mt-5">
@@ -228,7 +265,6 @@ const Register = () => {
             </div>
           </form>
         </div>
-        
       </div>
     </div>
   );

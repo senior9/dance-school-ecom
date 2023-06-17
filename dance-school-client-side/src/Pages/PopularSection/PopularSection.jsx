@@ -12,7 +12,7 @@ const PopularSection = () => {
   const { data: popularClasses = [], isLoading } = useQuery({
     queryKey: "popularClasses",
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/popular-classes");
+      const res = await fetch("https://dance-school-server-senior9.vercel.app/popular-classes");
       return res.json();
     },
   });

@@ -7,13 +7,13 @@ import Swal from 'sweetalert2';
 
 const AllUser = () => {
 const {data:user=[],refetch} =useQuery(['users'],async()=>{
-    const response = await fetch('http://localhost:5000/users')
+    const response = await fetch('https://dance-school-server-senior9.vercel.app/users')
     return response.json();
 })
 
 const handlemakeAdmin = (user) => {
   
-    fetch(`http://localhost:5000/users/admin/${user._id}`, {
+    fetch(`https://dance-school-server-senior9.vercel.app/users/admin/${user._id}`, {
       method: 'PATCH',
     })
       .then((res) => res.json())
