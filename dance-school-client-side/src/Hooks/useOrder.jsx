@@ -17,7 +17,7 @@ const useOrder = () => {
       const res = await fetch(
         `http://localhost:5000/carts?email=${user?.email}`,{
           headers: {
-            authorization: 'Bearer ' +{verifyToken}
+            authorization: `Bearer  ${verifyToken}`
           }
         }
       );

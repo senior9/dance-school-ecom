@@ -24,6 +24,7 @@ const ManageAllClasses = () => {
               axiosSecure.delete(`/classCollection/${item._id}`)
               .then(res=>{
                 if(res.data.deletedCount>0){
+                  refetch();
                     Swal.fire(
                         'Deleted!',
                         'Your file has been deleted.',

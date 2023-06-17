@@ -17,7 +17,7 @@ const SingleClass = ({singleClass}) => {
       console.log("Item Added")
       if(user && user.email){
         const orderClassCartItem = {available_seats,class_image,class_name,instructor_email:user.email,instructor_image:user.photoUrl,instructor_name:user.displayName,price,students,}
-        fetch(`http://localhost:5000/carts`,{
+        fetch(`http://localhost:5000/carts?email=${user.email}`,{
           method:"POST",
           headers:{
             'content-type':"application/json"

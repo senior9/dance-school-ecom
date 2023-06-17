@@ -108,11 +108,11 @@ const AddClass = () => {
               <span className="label-text">Number Of Students</span>
             </label>
             <input
-              type="text"
+              type="number"
               placeholder="Price"
               className="input input-bordered w-96"
-              defaultValue={0}
-              readOnly
+              // defaultValue={0}
+              // readOnly
               {...register("students", { required: true })}
             />
           </div>

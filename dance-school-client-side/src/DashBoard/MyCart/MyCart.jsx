@@ -2,10 +2,11 @@ import React from 'react';
 import useOrder from '../../Hooks/useOrder';
 import { TiDeleteOutline } from 'react-icons/ti';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MyCart = () => {
   const [cart,refetch] = useOrder();
+  const navigate = useNavigate();
   console.log(cart);
   // Calculate the total price
   const totalPrice = cart.reduce((total, item) => {
@@ -43,13 +44,18 @@ const MyCart = () => {
     });
   };
 
+    // handle payment for a single cart item
+    const handlePayment = (row) => {
+      // navigate to the checkout page and pass cart item as props
+      navigate('/dashboard/payment', { state: { cartItem: row } });
+    };
   return (
     <div className="w-full container mx-auto">
       <div className="flex justify-between mb-4">
         <button className="btn btn-info">Total Order : {cart.length}</button>
 
         <button className="btn btn-success">Total Price: ${totalPrice}</button>
-        <Link to="/dashboard/payment" className="btn btn-success">Pay</Link>
+        
       </div>
 
       <div className="overflow-x-auto">
@@ -64,6 +70,7 @@ const MyCart = () => {
               <th>Email</th>
               <th>price</th>
               <th>Action</th>
+              <th>Payment</th>
               <th></th>
             </tr>
           </thead>
@@ -97,6 +104,10 @@ const MyCart = () => {
                     <TiDeleteOutline />
                   </button>
                 </th>
+                <th>
+                <button onClick={() => handlePayment(row)} className="btn btn-success">Pay</button>
+                </th>
+                
               </tr>
             ))}
           </tbody>

@@ -1,12 +1,26 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import useOrder from '../../Hooks/useOrder';
+import useAxiosSecure from '../../Hooks/useAxiousSecure';
+import { authProvider } from '../../Provider/Provider';
 
-const CheckOut = () => {
-
+const CheckOut = ({price }) => {
+    const [axiosSecure]=useAxiosSecure();
     const stripe=useStripe();
+    const {user} =useContext(authProvider)
     const elements = useElements();
     const [error,setError]=useState();
+  const [secrect,setClientSecrect]= useState('');
 
+  useEffect(()=>{
+    axiosSecure.post("/create-payment-intent",{price})
+    .then(res=>{
+      console.log(res.data.clientSecret)
+      setClientSecrect(res.data.clientSecret)
+    })
+  },[])
+
+    console.log(price)
     const handleSubmit = async (event) => {
         event.preventDefault()
 
@@ -23,8 +37,9 @@ const CheckOut = () => {
 
           const {error,paymentMethod}= await stripe.createPaymentMethod({
             type:'card',
-            card,
+            card : card,
           })
+          
           if (error) {
             console.log('[error]', error);
             setError(error.message)
@@ -32,6 +47,23 @@ const CheckOut = () => {
             setError('')
             console.log('[PaymentMethod]', paymentMethod);
           }
+
+          const {paymentIntent, error:confirmError} = await stripe.confirmCardPayment(
+            secrect,
+            {
+              payment_method: {
+                card:card,
+                billing_address:{
+                    email: user?.email || 'unknown',
+                    name: user?.displayname || ' hacker'
+                },
+              },
+            },
+          );
+          if(confirmError){
+            console.log("error", confirmError)
+          }
+          console.log("payment_Method",paymentIntent)
       
     }
     return (
@@ -53,7 +85,7 @@ const CheckOut = () => {
             },
           }}
         />
-        <button className='btn btn-success btn-outline px-5 text-black font-semibold text-xl mt-5' type="submit" disabled={!stripe}>
+        <button onClick={handleSubmit} className='btn btn-success btn-outline px-5 text-black font-semibold text-xl mt-5' type="submit" disabled={!stripe || !secrect}>
           Pay
         </button>
       </form>

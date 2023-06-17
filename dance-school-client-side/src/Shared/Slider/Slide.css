@@ -1,0 +1,21 @@
+.slider-item {
+  position: relative;
+}
+
+.slider-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white; /* Customize the text color as desired */
+}
+
+.slider-title {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.slider-description {
+  font-size: 16px;
+}

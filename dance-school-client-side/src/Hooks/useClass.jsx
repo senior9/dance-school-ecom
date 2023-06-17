@@ -13,7 +13,10 @@ const useClass = () => {
           return res.json();
         },
       });
+      console.log(classCollection)
+
       return [classCollection, refetch,loading];
+    
 };
 
 export default useClass;

@@ -1,17 +1,15 @@
 import React, { useContext } from "react";
-import "./Navbar.css";
-import navImg from "../../assets/navbar-logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { authProvider } from "../../Provider/Provider";
 import { FaShoppingCart } from "react-icons/fa";
 import useOrder from "../../Hooks/useOrder";
+import navImg from "../../assets/navbar-logo.png";
 
 const Navbar = () => {
   const { user, photoUrl, displayName, logOut } = useContext(authProvider);
   console.log(photoUrl);
-  const [cart]= useOrder();
-  console.log(cart.length)
-
+  const [cart] = useOrder();
+  console.log(cart.length);
 
   // handleSign out
   const handleSignOut = () => {
@@ -22,14 +20,14 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="mx-auto container">
-      <div className="navbar fixed">
-        <div className="navbar-start">
-          <div className="dropdown">
+    <div className=" bg-[#0E2954]  ">
+      <div className="navbar  mx-auto  container text-white">
+        <div className="navbar-start flex items-center">
+          <div className="dropdown inline-block">
             <label tabIndex={0} className="lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-white"
+                className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -37,7 +35,7 @@ const Navbar = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
+                  strokeWidth={2}
                   d="M4 6h16M4 12h8m-8 6h16"
                 />
               </svg>
@@ -57,7 +55,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <Link className="flex-1 normal-case text-xl">
+          <Link className="flex-1 normal-case text-xl" to="/">
             <img className="h-1/2" src={navImg} alt="" />
           </Link>
         </div>
@@ -78,10 +76,12 @@ const Navbar = () => {
                   <Link to="/dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard"><button className=" btn gap-1"><FaShoppingCart></FaShoppingCart>
-                  
-                  <div className="badge badge-outline">+{cart.length}</div>
-                  </button></Link>
+                  <Link to="/dashboard">
+                    <button className="btn gap-1 flex items-center">
+                      <FaShoppingCart />
+                      <div className="badge badge-outline">+{cart.length}</div>
+                    </button>
+                  </Link>
                 </li>
                 <li>
                   <Link onClick={handleSignOut} to="/login">
@@ -95,14 +95,23 @@ const Navbar = () => {
               </li>
             )}
             {user && displayName && (
-              <Link
-                className="d-flex tooltip tooltip-bottom align-items-center"
-                data-tip={displayName}
-              >
-                <div className="avatar online">
-                  <img className="w-2 h-2 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2" src={photoUrl} alt="" />
-                </div>
-              </Link>
+              <>
+                <Link
+                  // className="d-flex tooltip tooltip-top items-center"
+                  // data-tip={displayName}
+                >
+                  <div className="avatar online h-[50px]">
+                    <img
+                      className="w-full  rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                      src={photoUrl}
+                      alt=""
+                    />
+                  </div>
+                </Link>
+                <li>
+                <Link to="/login">{displayName}</Link>
+              </li>
+              </>
             )}
           </ul>
         </div>

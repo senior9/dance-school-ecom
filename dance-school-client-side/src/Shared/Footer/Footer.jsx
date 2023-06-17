@@ -3,7 +3,7 @@ import "./Footer.css";
 import logo from "../../assets/footer-logo.png"
 const Footer = () => {
   return (
-    <div className="custom-color" >
+    <div className="custom-color " >
       <footer className="footer p-10  container mx-auto text-base-content">
         <div>
           <span className="footer-title">Services</span>
