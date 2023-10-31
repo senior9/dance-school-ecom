@@ -53,7 +53,7 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="form-control">
               <label className="label">
-                <span className="label-text text-2xl text-white">Email</span>
+                <span className="label-text text-2xl text-white">Email</span>: <span>user@mail.com</span>
               </label>
               <input
                 type="text"
@@ -73,7 +73,7 @@ const Login = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text text-2xl text-white">Password</span>
+                <span className="label-text text-2xl text-white">Password</span>: <span>Admin88@</span>
               </label>
               <div className="relative">
                 <input
